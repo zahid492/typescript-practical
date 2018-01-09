@@ -1,21 +1,72 @@
 import '../styles/base.scss';
 
-import { Greeter } from './greeter';
+import { IStudentScore, addScore, deleteScore, getRecords, sortScore } from './service/crudService';
 
-const greeter: Greeter = new Greeter('class1-assignment');
-const fullNameTextBox: HTMLElement = document.getElementById('fullName');
-const scoreTextBox: HTMLElement = document.getElementById('score');
-const addScoreButton: HTMLElement = document.getElementById('addScore');
 
-addScoreButton.addEventListener('click', ()=> {
-    console.log(fullNameTextBox.value);
+const fullNameTextBox = <HTMLInputElement>document.getElementById('fullName');
+const scoreTextBox = <HTMLInputElement>document.getElementById('score');
+const addScoreButton = <HTMLButtonElement>document.getElementById('addScore');
+const deleteButton = <HTMLButtonElement>document.getElementById('deleteButton');
+const listItem = <HTMLElement>document.getElementById('demo');
+
+
+class StudentScore {
+    public totalStudents: any[];
+    constructor() {
+        this.displayResult();
+    }
+    public addStudent(obj: IStudentScore): void {
+        addScore(obj);
+    }
+    public deleteStudent(obj: IStudentScore): void {
+        deleteScore(obj);
+    }
+
+    public displayResult():void {
+        this.totalStudents = getRecords();
+        let singleListItem ='';
+        for (let item of this.totalStudents) {
+            singleListItem = singleListItem + `<li>
+                      <span>
+                        <span>${item.fullName}</span>
+                        <span>${item.score}</span>
+                        <button id="deleteButton" onclick="this.deleteStudent(${item.score})">Delete</button>
+                      </span>
+                   </li>`;
+        }
+        listItem.innerHTML = singleListItem;
+        console.log(listItem);
+    };
+}
+let studentScore = new StudentScore();
+addScoreButton.addEventListener('click', () => {
+    let studentScore = new StudentScore();
+    let objStudent = {
+        id: Math.random() % 100,
+        fullName: fullNameTextBox.value,
+        score: parseInt(scoreTextBox.value)
+    };
+    studentScore.addStudent(objStudent);
+    studentScore.displayResult();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    deleteButton.addEventListener('click', () => {
+        debugger;
+        let studentScore = new StudentScore();
+        let objStudent = {
+            id: 3,
+            fullName: 'XXX',
+            score: 10
+        };
+        studentScore.deleteStudent(objStudent);
+        studentScore.displayResult();
+    });
 });
 
 
-const el = document.getElementById('greeting');
-if (el) {
-    el.innerHTML = greeter.greet();
-}
+
+
 
 
 
