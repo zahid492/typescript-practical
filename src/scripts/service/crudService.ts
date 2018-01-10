@@ -13,7 +13,7 @@ let studentScores: IStudentScore[] = [
     {
         id: 2,
         fullName: 'Kariim',
-        score: 10
+        score: 9
     }
 ];
 
@@ -24,16 +24,19 @@ export function addScore(studentScore:IStudentScore):void{
     getRecords();
 }
 
-export function deleteScore(studentScore: IStudentScore): void {
-     //const obj: IStudentScore[];
-  //  console.log(obj);
+export function deleteScore(studentId: number): void {
     debugger;
+    for (let i = 0; i < studentScores.length; i++) {
+        if (studentScores[i].id == studentId) {
+            studentScores.splice(i, 1);
+        }
+    }
     getRecords();
+   
 
 }
 
 export function getRecords(): IStudentScore[] {
-    console.log("Call 1st Time");
     return <IStudentScore[]> studentScores;
 }
 export function sortScore(studentScore: IStudentScore): any {
