@@ -39,7 +39,3 @@ export function deleteScore(studentId: number): void {
 export function getRecords(): IStudentScore[] {
     return <IStudentScore[]> studentScores;
 }
-export function sortScore(studentScore: IStudentScore): any {
-
-
-}

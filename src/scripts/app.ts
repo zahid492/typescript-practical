@@ -1,6 +1,6 @@
 import '../styles/base.scss';
 
-import { IStudentScore, addScore, deleteScore, getRecords, sortScore } from './service/crudService';
+import { IStudentScore, addScore, deleteScore, getRecords} from './service/crudService';
 
 
 const fullNameTextBox = <HTMLInputElement>document.getElementById('fullName');
@@ -16,42 +16,24 @@ class StudentScore {
     public order: string = 'asc';
     constructor() {
         this.displayResult();
-        /*let objStudent = {
-            id: 3,
-            fullName: 'XXX',
-            score: 10
-        };
-        if (deleteButton) {
-            deleteButton.addEventListener("click", (e: Event) => this.deleteStudent(objStudent));
-        }*/
-        
     }
     public addStudent(obj: IStudentScore): void {
         addScore(obj);
     }
     public deleteStudent(obj: number): void {
         deleteScore(obj);
+        studentScore.displayResult();
     }
 
-    public displayResult():void {
-        this.totalStudents = this.OrderByArray(getRecords(),'score');
-
-        let singleListItem ='';
+    public displayResult(): void {
+        clearStudentTable();
+        this.totalStudents = this.orderByArray(getRecords(),'score');
         for (let item of this.totalStudents) {
-            singleListItem = singleListItem + `<li>
-                      <span>
-                        <span>${item.fullName}</span>
-                        <span>${item.score}</span>
-                        <button id="deleteButton">Delete</button>
-                      </span>
-                   </li>`;
-        }
-        listItem.innerHTML = singleListItem;
-        console.log(listItem);
+            printTask(item);
+        };
     };
 
-    public OrderByArray(values: any[], orderType: any) {
-        console.log(this.order);
+    public orderByArray(values: any[], orderType: any) {
         return values.sort((a, b) => {
             if (this.order === 'asc') {
                 if (a[orderType] > b[orderType]) {
@@ -63,12 +45,11 @@ class StudentScore {
                     return 1;
                 }
             }
-        return 0
-    });
+            return 0;
+        });
 }
 }
 
-window.onload = () => {
     let studentScore = new StudentScore();
     addScoreButton.addEventListener('click', () => {
         let objStudent = {
@@ -81,16 +62,66 @@ window.onload = () => {
     });
 
     sortButton.addEventListener('click', () => {
-        console.log(studentScore.order);
         if (studentScore.order === 'asc') {
-            studentScore.order = 'dsc'
+            studentScore.order = 'dsc';
         } else {
-            studentScore.order = 'asc'
+            studentScore.order = 'asc';
         }
         sortButton.value = "Sort " + studentScore.order;
         studentScore.displayResult();
     });
 
-}
+    function deleteStudentFunc(id: number): void {
+        studentScore.deleteStudent(id);
+    }
+
+    function printTask(student: IStudentScore): void {
+        var studentTable: HTMLTableElement = <HTMLTableElement>document.getElementById("studentTable");
+        var studentNameCol: HTMLTableDataCellElement = <HTMLTableDataCellElement>document.createElement("td");
+        var studentScoreCol: HTMLTableDataCellElement = <HTMLTableDataCellElement>document.createElement("td");
+        var studentCommandCol: HTMLTableDataCellElement = <HTMLTableDataCellElement>document.createElement("td");
+
+
+        var studentDeleteButton: HTMLButtonElement = <HTMLButtonElement>document.createElement("button");
+
+        studentDeleteButton.id = student.id.toString();
+
+        studentDeleteButton.innerText = "Delete";
+
+        studentDeleteButton.onclick = () => {
+            if (confirm('Do you want to delete this todo item?')) {
+                deleteStudentFunc(student.id);
+            }
+        };
+        studentCommandCol.width = "200px";
+        studentCommandCol.appendChild(studentDeleteButton);
+
+        var studentNameSpan: HTMLSpanElement = <HTMLSpanElement>document.createElement("span");
+        studentNameSpan.innerHTML = student.fullName;
+        studentNameCol.appendChild(studentNameSpan);
+
+
+        var studentScoreSpan: HTMLSpanElement = <HTMLSpanElement>document.createElement("span");
+        studentScoreSpan.innerHTML = student.score.toString();
+        studentScoreCol.appendChild(studentScoreSpan);
+
+        var studentRow: HTMLTableRowElement = <HTMLTableRowElement>document.createElement("tr");
+
+        studentRow.insertCell(0).appendChild(studentNameCol);
+        studentRow.insertCell(1).appendChild(studentScoreCol);
+        studentRow.insertCell(2).appendChild(studentCommandCol);
+        studentTable.tBodies[0].appendChild(studentRow);
+    }
+
+    function clearStudentTable(): void {
+        var studentTable: HTMLTableElement = <HTMLTableElement>document.getElementById("studentTable");
+        var oldTbody = studentTable.tBodies[0];
+        var newTbody = document.createElement('tbody');
+        studentTable.replaceChild(newTbody, oldTbody);
+    }
+
+
+
+
 
 
