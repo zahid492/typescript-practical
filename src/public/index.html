@@ -10,21 +10,30 @@
     <h2>Student Mark</h2>
     
 
-    <input id="fullName" name="fullName" />
-    <input id="score" name="score" />
+    <input id="fullName" name="fullName" type="text" />
+    <input id="score" name="score" type="number" />
     <button id="addScore">Add Score</button>
     <div id="todosContainer" class="todos"></div>
 
-    <input type="button" value="Sort asc" id="sortButton"></input> 
+    
 <ol id="demo"></ol>
     
 <table id="studentTable">
     <thead>
     <td style="width: 300px;">Name</td>
-    <td style="width: 300px;">Score</td>
+    <td style="width: 300px;">Score <input type="button" value="asc" id="sortButton"></input> </td>
+    <td style="width: 300px;">Action</td>
     </thead>
     <tbody></tbody>
 </table>
 </body>
+<style type="text/css">
+    table {
+        border-collapse: collapse;
+    }
 
+    table, th, td {
+        border: 1px solid black;
+    }
+</style>
 </html>

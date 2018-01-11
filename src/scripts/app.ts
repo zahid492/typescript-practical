@@ -67,7 +67,7 @@ class StudentScore {
         } else {
             studentScore.order = 'asc';
         }
-        sortButton.value = "Sort " + studentScore.order;
+        sortButton.value = studentScore.order;
         studentScore.displayResult();
     });
 
