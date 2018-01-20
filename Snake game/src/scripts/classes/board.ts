@@ -12,14 +12,16 @@ export class Board implements IBoard{
     width: number;
     size:number;
     food: IFood;
+    score: number;
     _localStorage: Storage;
-    constructor(painter: IPainter,snake: ISnake, food: IFood,h:number, w:number, s:number){
+    constructor(painter: IPainter, snake: ISnake, food: IFood, h: number, w: number, s: number, score:number){
         this.height = h;
         this.width = w;
         this.size = s;
         this.painter = painter;
         this.snake = snake;
         this.food = food;
+        this.score= score;
         this._localStorage = window.localStorage;
     }
     drawSnake():void{
@@ -43,26 +45,26 @@ export class Board implements IBoard{
         }
     }
     drawFood():void{
-        this.painter.fillArea(this.food.position.x*this.size, this.food.position.y*this.size, this.size, this.size, "pink");
-        this.painter.strokeArea(this.food.position.x*this.size, this.food.position.y*this.size, this.size, this.size, "yellow");
+        this.painter.fillArea(this.food.position.x*this.size, this.food.position.y*this.size, this.size, this.size, "purple");
+        this.painter.strokeArea(this.food.position.x*this.size, this.food.position.y*this.size, this.size, this.size, "black");
 
     }
     drawScore(): void{
         let lblScore: any = document.getElementById('lblScore');
         let highScore: any = document.getElementById('highScore');
-        lblScore.innerHTML = score++;
+        let tempScore = this.score++;
         if (!this._localStorage.getItem('highScore')) {
             this._localStorage.setItem('highScore', '0');
         } else {
             var storagehighScore:any= this._localStorage.getItem('highScore');
-            if (Number(storagehighScore) < score) {
-                var tempStorageScore = Number(storagehighScore) + 1;
-                this._localStorage.setItem('highScore', tempStorageScore.toString());
-                highScore.innerHTML = tempStorageScore;
-            } else {
+            if (Number(storagehighScore) > tempScore) {
                 highScore.innerHTML = storagehighScore;
+            } else {
+                this._localStorage.setItem('highScore', tempScore.toString());
+                highScore.innerHTML = tempScore;
             }
         }
+        lblScore.innerHTML = tempScore;
     }
     checkBoundary(): boolean{
         return this.snake.checkBoundary(-1,  this.width/this.size,-1, this.height/this.size);

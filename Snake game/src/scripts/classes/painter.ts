@@ -16,4 +16,9 @@ export class Painter implements IPainter{
         this.context.strokeStyle = color;
         this.context.strokeRect(x1, y1,x2, y2);
     }
+    drawGameOver(score:number): void {
+        console.log("Game Over");
+        this.context.font = "20px Arial";
+        this.context.strokeText('Game Over! \n Your Score:' + score, 50, 50);
+    }
 }

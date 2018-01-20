@@ -10,5 +10,6 @@ export interface IBoard {
     drawSnake():void,
     drawFood(food: any):void,
     drawScore():void,
-    init():void
+    init(): void,
+    score:number
 }

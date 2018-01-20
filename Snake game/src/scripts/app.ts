@@ -1,13 +1,13 @@
-import {Painter} from './classes/painter';
-import {Board} from './classes/board';
-import {Snake} from './classes/snake';
-import {Food} from "./classes/food";
+import { Painter } from './classes/painter';
+import { Board } from './classes/board';
+import { Snake } from './classes/snake';
+import { Food } from "./classes/food";
 
 let canvas: any = document.getElementById('mycanvas');
 
-let startButton: any = document.getElementById('start-btn');
-let pauseButton: any = document.getElementById('pause-btn');
-let resumeButton: any = document.getElementById('resume-btn');
+var startButton: any = document.getElementById('start-btn');
+var pauseButton: any = document.getElementById('pause-btn');
+var resumeButton: any = document.getElementById('resume-btn');
 
 
 let lblScore: any = document.getElementById('lblScore');
@@ -17,110 +17,69 @@ highScore.innerHTML = window.localStorage.getItem('highScore') || 0;
 
 
 startButton.addEventListener("click", function () {
-    init();
+    init('start');
+    startButton.style.visibility = "hidden";
+    pauseButton.style.visibility = "visible";
 });
 
 
 pauseButton.addEventListener("click", function () {
-   // startButton.setAttribute('disabled', false);
-   // pauseButton.setAttribute('disabled', true);
-    //debugger;
+    pauseButton.style.visibility = "hidden";
+    startButton.style.visibility = "visible";
     clearInterval(gameLoop);
 });
 
-resumeButton.addEventListener("click", function () {
-    // startButton.setAttribute('disabled', false);
-    //pauseButton.setAttribute('disabled', true);
+/*resumeButton.addEventListener("click", function () {
+    init('resume');
+});*/
 
-    //var snake = new Snake(4, 'green', 'darkgreen');
-    //debugger;
-    var aq = gameLoop;
-});
-var gameLoop:any;
-let resumeGame: any;
-
-
-
-function init(): void {
-    //startButton.setAttribute('disabled', true);
-    let painter = new Painter(canvas);
-    var snake = new Snake(4, 'green', 'darkgreen');
-    var food = new Food();
-    var board = new Board(painter, snake, food, 350, 350, 10);
+let board: any, painter: any, snake: any, food: any;
+window.onload = function (e) {
+    pauseButton.style.visibility = "hidden";
+    painter = new Painter(canvas);
+    snake = new Snake(4, 'green', 'darkgreen');
+    food = new Food();
+    board = new Board(painter, snake, food, 350, 350, 10,0);
     board.init();
-    board.drawScore();
-    gameLoop = setInterval(function () {
-        board.init();
-        snake.move();
-       // 
+    //board.drawScore();
+};
+let gameLoop: any;
 
-        if(board.checkBoundary()){
-            gameLoop = clearInterval(gameLoop);
-            alert("Game over");
-        }
-
-        if (snake.checkCollision()) {
-            //debugger;
-        }
-
-        if (snake.eatFood(food.position)) {
-           // debugger;
-            food.createFood();
-            board.drawFood();
-            board.drawScore();
-        }
-
-        document.onkeydown = function (event) {
-            let keyCode: number = event.keyCode;
-            console.log("Move");
-            console.log(food.position);
-            snake.changeDirection(keyCode)
-        }
-        board.drawSnake();
-        board.drawFood();
-    }, 150)
-
-    resumeGame = function () {
-        console.log("Resume");
-        //snake.move();
-        //board.drawSnake();
-        //board.drawFood();
-       /* gameLoop = setInterval(function () {
+function init(status: string): void {
+        gameLoop = setInterval(function () {
             board.init();
             snake.move();
-
-
             if (board.checkBoundary()) {
                 gameLoop = clearInterval(gameLoop);
-                alert("Game over");
+                //alert("Game over");
+               
+               painter.drawGameOver(board.score);
+               setTimeout(function () {
+               if (confirm("Play again !!")) {
+                    location.reload();
+                } else {
+                    location.reload();
+                    }
+                }, 100);
             }
 
             if (snake.checkCollision()) {
-                //debugger;
+                alert("Touch in With Anyone");
             }
 
             if (snake.eatFood(food.position)) {
-                // debugger;
                 food.createFood();
                 board.drawFood();
-                //board.drawSnakeinLength();
+                board.drawScore();
             }
 
             document.onkeydown = function (event) {
                 let keyCode: number = event.keyCode;
-                console.log("Move");
-                console.log(food.position);
                 snake.changeDirection(keyCode)
             }
             board.drawSnake();
             board.drawFood();
         }, 150)
-        // gameLoop();
-        if (!gameLoop) {
-            gameLoop();
-        } else {
-            gameLoop();
-        }*/
-    }
 }
+
 

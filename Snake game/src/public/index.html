@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title> Snake Game </title>
     <link rel="stylesheet" href="snake.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
 </head>
     <body>
         <span>
@@ -14,14 +17,17 @@
             <p id="highScore"></p>
         </span>    
 
-        <button id='start-btn'>START</button>
+        <button class="waves-effect waves-light btn" id='start-btn'><i class="material-icons left">play_arrow</i></button>
 
-        <button id='pause-btn'>Pause</button>
-        <button id='resume-btn'>Resume</button>
-        <br>
-        <canvas id='mycanvas' width='350' height='350'>
+        <button class="waves-effect waves-light btn" id='pause-btn'><i class="material-icons left">pause</i></button>
+        <!--<button class="waves-effect waves-light btn" id='resume-btn'><i class="material-icons left">play_arrow</i></button>-->
+            <canvas id='mycanvas' width='350' height='350'>
         </canvas>
+        <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+  
 
-      <!--<script src="dist/bundle.js"></script>--->
     </body>
+
+
 </html>
