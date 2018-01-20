@@ -7,3 +7,6 @@ student-score/node_modules/
 student-score/prev/
 student-score/package-lock.json
 student-score/.idea/
+
+node_modules/
+.vs/
