@@ -3,6 +3,8 @@ import {IFood} from '../interfaces/ifood';
 import {ISnake} from '../interfaces/isnake';
 import {IBoard} from '../interfaces/iboard';
 
+let score: number = 0;
+
 export class Board implements IBoard{
     painter: IPainter;
     snake: ISnake;
@@ -10,6 +12,7 @@ export class Board implements IBoard{
     width: number;
     size:number;
     food: IFood;
+    _localStorage: Storage;
     constructor(painter: IPainter,snake: ISnake, food: IFood,h:number, w:number, s:number){
         this.height = h;
         this.width = w;
@@ -17,6 +20,7 @@ export class Board implements IBoard{
         this.painter = painter;
         this.snake = snake;
         this.food = food;
+        this._localStorage = window.localStorage;
     }
     drawSnake():void{
         for (var i = 0; i < this.snake.cells.length; i++) {
@@ -43,13 +47,33 @@ export class Board implements IBoard{
         this.painter.strokeArea(this.food.position.x*this.size, this.food.position.y*this.size, this.size, this.size, "yellow");
 
     }
-    drawScore():void{
-
+    drawScore(): void{
+        let lblScore: any = document.getElementById('lblScore');
+        let highScore: any = document.getElementById('highScore');
+        lblScore.innerHTML = score++;
+        if (!this._localStorage.getItem('highScore')) {
+            this._localStorage.setItem('highScore', '0');
+        } else {
+            var storagehighScore:any= this._localStorage.getItem('highScore');
+            if (Number(storagehighScore) < score) {
+                var tempStorageScore = Number(storagehighScore) + 1;
+                this._localStorage.setItem('highScore', tempStorageScore.toString());
+                highScore.innerHTML = tempStorageScore;
+            } else {
+                highScore.innerHTML = storagehighScore;
+            }
+        }
     }
     checkBoundary(): boolean{
         return this.snake.checkBoundary(-1,  this.width/this.size,-1, this.height/this.size);
     }
-    init():void{
+
+    drawSnakeinLength(): void {
+        var cell = this.snake.cells[1];
+        console.log(cell);
+        this.drawSnakeCell(cell.x, cell.y, false);
+    }
+    init(): void{
         this.painter.fillArea(0, 0, this.width, this.height, "lightgrey")
         this.painter.strokeArea(0, 0, this.width, this.height,"black")
     }

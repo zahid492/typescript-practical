@@ -9,9 +9,10 @@ export class Food implements IFood{
     }
     createFood():void{
         let pos = {
-            x:Math.random()*30,
-            y:Math.random()*30
+            x: Math.floor((Math.random()*30)),
+            y:Math.floor((Math.random()*30))
         }
+        console.log(pos)
         this.position = pos;
     }
 }

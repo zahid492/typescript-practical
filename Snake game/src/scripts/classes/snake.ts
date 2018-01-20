@@ -66,9 +66,10 @@ export class Snake implements ISnake{
     }
 
     eatFood(food:IPosition): boolean{
-        let head:IPosition = this.cells[0];
-
+        let head: IPosition = this.cells[0];
+        let endOfCell : IPosition = this.cells[this.cells.length - 1];
         if(food.x == head.x && food.y == head.y){
+            this.cells.push({ x: endOfCell.x, y: endOfCell.y });
             return true;
         } else {
             return false;
@@ -79,7 +80,7 @@ export class Snake implements ISnake{
     checkCollision(): boolean{
         var x = this.cells[0].x;
         var y = this.cells[0].y;
-        for(var i = 0; i < this.cells.length; i++) {
+        for(var i = 1; i < this.cells.length; i++) {
             var cell = this.cells[i];
             if(cell.x === x && cell.y === y)
                 return true;
