@@ -16,11 +16,10 @@ let highScore: any = document.getElementById('highScore');
 
 
 startButton.addEventListener("click", function () {
-    init('start');
+    init(150);
     startButton.style.visibility = "hidden";
     pauseButton.style.visibility = "visible";
 });
-
 
 pauseButton.addEventListener("click", function () {
     painter.drawMessage("Pause");
@@ -28,42 +27,47 @@ pauseButton.addEventListener("click", function () {
     startButton.style.visibility = "visible";
     clearInterval(gameLoop);
 });
-
-/*resumeButton.addEventListener("click", function () {
-    init('resume');
-});*/
-
 let board: any, painter: any, snake: any, food: any;
 window.onload = function (e) {
-    lblScore.innerHTML = 0;
-    highScore.innerHTML = window.localStorage.getItem('highScore') || 0;
     painter = new Painter(canvas);
     snake = new Snake(4, 'green', 'darkgreen');
     food = new Food();
     board = new Board(painter, snake, food, 300, 300, 10,1);
     board.init();
     startButton.style.visibility = "visible";
-    //board.drawScore();
+    board.drawHighScore();
+    lblScore.innerHTML = 0;
 };
 let gameLoop: any;
+let counter: number=0;
 
-function init(status: string): void {
-    
+function init(intervalTime:number): void {
+    counter++;
     gameLoop = setInterval(function () {
             board.init();
             snake.move();
+            if (board.score > 3 * counter) {
+                clearInterval(gameLoop);
+                intervalTime = intervalTime-20;
+                console.log(intervalTime);
+                if (intervalTime < 70) {
+                    intervalTime=70
+                }
+                init(intervalTime)
+            }
             if (board.checkBoundary() || snake.checkCollision()) {
                 gameLoop = clearInterval(gameLoop);
 
-                var message = 'Game Over! \n Your Score:' + board.score;
+
+                var message = 'Game Over! \n Your Score:' + (board.score-1);
                 painter.drawMessage(message);
-               setTimeout(function () {
-               if (confirm("Play again !!")) {
-                    location.reload();
-                } else {
-                    location.reload();
-                    }
-                }, 100);
+                   setTimeout(function () {
+                   if (confirm("Play again !!")) {
+                        location.reload();
+                    } else {
+                        location.reload();
+                        }
+                    }, 100);
             }
 
             if (snake.eatFood(food.position)) {
@@ -78,7 +82,7 @@ function init(status: string): void {
             }
             board.drawSnake();
             board.drawFood();
-        }, 150)
+    }, intervalTime)
 }
 
 

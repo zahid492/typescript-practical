@@ -11,5 +11,6 @@ export interface IBoard {
     drawFood(food: any):void,
     drawScore():void,
     init(): void,
-    score:number
+    score: number,
+    drawHighScore(): void
 }

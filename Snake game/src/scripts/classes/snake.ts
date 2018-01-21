@@ -47,7 +47,8 @@ export class Snake implements ISnake{
         }
     }
 
-    move(){
+    move() {
+      //  console.log(this.cells);
         let snakeX: number = this.cells[0].x;
         let snakeY: number = this.cells[0].y;
 
