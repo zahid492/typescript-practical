@@ -1,4 +1,4 @@
-# class1-assignment
+# Student Score
 
 ## Fetch dependencies
 ```
