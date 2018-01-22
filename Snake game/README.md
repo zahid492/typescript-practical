@@ -1,4 +1,4 @@
-# class1-assignment
+# Snake Game
 
 ## Fetch dependencies
 ```
@@ -14,3 +14,10 @@ npm run build
 ```
 npm start
 ```
+## Feature
+
+ * Play/Pause
+ * Eat Food
+ * Score
+ * High Score
+
